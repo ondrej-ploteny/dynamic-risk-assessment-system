@@ -37,7 +37,7 @@ def model_predictions(data_to_predict: pd.DataFrame):
 
     assert len(data_to_predict) == len(predictions)
 
-    return list(predictions)
+    return predictions.tolist()
 
 
 def dataframe_summary():
