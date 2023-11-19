@@ -10,7 +10,7 @@ import json
 import sys
 
 import pandas as pd
-
+import subprocess
 import ingestion
 import training
 import scoring
@@ -84,29 +84,33 @@ def full_process():
     :return:
     """
 
-    # if you found new data, you should proceed. otherwise, do end the process here
-    if not check_for_new_dataset():
-        logging.info("STEP: ingestion, no new dataset occurs")
-        return
+    try:
+        # if you found new data, you should proceed. otherwise, do end the process here
+        if not check_for_new_dataset():
+            logging.info("STEP: ingestion, no new dataset occurs")
+            return
 
-    # process new ingested data
-    logging.info("STEP: ingestion, new dataset occurs - check drift")
-    ingestion.merge_multiple_dataframe()
+        # process new ingested data
+        logging.info("STEP: ingestion, new dataset occurs - check drift")
+        ingestion.merge_multiple_dataframe()
 
-    # check for data drift
-    deployed_score = load_previous_score(score_file_path)
-    actual_f1_score = scoring.score_model(is_dump=False)
+        # check for data drift
+        deployed_score = load_previous_score(score_file_path)
+        actual_f1_score = scoring.score_model(is_dump=False)
 
-    if actual_f1_score >= deployed_score:
-        logging.info("STEP: ingestion, No model drift occurred")
-        return None
+        if actual_f1_score >= deployed_score:
+            logging.info("STEP: ingestion, No model drift occurred")
+            return None
+    except FileNotFoundError:
+        logging.info("STEP: ingestion, No data exists, run first training")
+        ingestion.merge_multiple_dataframe()
 
     # drift occurs, make re-training
     logging.info("STEP: re-training model")
     training.train_model()
 
     logging.info("STEP: re-scoring model")
-    retrain_f1 = reporting.score_model()
+    retrain_f1 = scoring.score_model()
     logging.info(f"STEP: re-scoring model, new F1 score: {retrain_f1}")
 
     logging.info(f"STEP: model deploying")
@@ -131,6 +135,12 @@ def full_process():
     outdated_list = diagnostics.outdated_packages_list()
     logging.info(f"STEP: diagnostics, outdated packages: {str(outdated_list)}")
     logging.info("STEP: diagnostics, done")
+
+    logging.info("STEP: reporting")
+    reporting.score_model()
+
+    logging.info(f"STEP: diagnostics, call apicalls.py to test API endpoints")
+    subprocess.run(['sudo', 'python', 'apicalls.py'])
 
 
 if __name__ == "__main__":
