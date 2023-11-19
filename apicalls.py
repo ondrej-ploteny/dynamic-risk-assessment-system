@@ -1,3 +1,11 @@
+"""
+This script runs testing API endpoints
+
+author: Ondrej Ploteny <ondrej.ploteny@thermofisher.com>
+Nov 2023
+"""
+
+
 import json
 import os
 import pandas as pd
@@ -17,6 +25,11 @@ report_path = os.path.join(config['output_model_path'], 'apireturns.txt')
 
 
 def api_call():
+    """
+    Provide requests to API endpoints and report response to file
+
+    :return: None
+    """
     header = {"Content-Type": "application/json"}
     body = {'filepath': test_data_path}
     response1 = requests.post(

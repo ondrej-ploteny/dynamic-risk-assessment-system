@@ -1,9 +1,20 @@
+"""
+This script provides a diagnostic overview ML model.
+Diagnostic features consists of :
+    1. execution time for training
+    2. provides model prediction
+    3. Dataset value analysis
+    4. Environment correctness
+
+author: Ondrej Ploteny <ondrej.ploteny@thermofisher.com>
+Nov 2023
+"""
+
 import pickle
 import subprocess
 import sys
 
 import pandas as pd
-import numpy as np
 import timeit
 import os
 import json

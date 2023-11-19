@@ -1,3 +1,11 @@
+"""
+This script provides a ML model scoring functions
+
+author: Ondrej Ploteny <ondrej.ploteny@thermofisher.com>
+Nov 2023
+"""
+
+
 import pandas as pd
 import pickle
 import os

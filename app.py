@@ -1,3 +1,10 @@
+"""
+This script Provides Flask API to serve prediction model in production.
+
+author: Ondrej Ploteny <ondrej.ploteny@thermofisher.com>
+Nov 2023
+"""
+
 from flask import Flask, session, jsonify, request
 import pandas as pd
 import json

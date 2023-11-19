@@ -1,5 +1,12 @@
+"""
+This script provides a raw data ingestion.
+
+author: Ondrej Ploteny <ondrej.ploteny@thermofisher.com>
+Nov 2023
+"""
+
+
 import pandas as pd
-import numpy as np
 import os
 import sys
 import json

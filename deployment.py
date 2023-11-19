@@ -1,3 +1,10 @@
+"""
+This script provides a deploying process of model.
+
+author: Ondrej Ploteny <ondrej.ploteny@thermofisher.com>
+Nov 2023
+"""
+
 import os
 import json
 import logging

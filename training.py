@@ -1,3 +1,10 @@
+"""
+This script provides a functions for training a Logistic Regression model.
+
+author: Ondrej Ploteny <ondrej.ploteny@thermofisher.com>
+Nov 2023
+"""
+
 import pandas as pd
 import pickle
 import os
