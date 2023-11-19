@@ -1,0 +1,1 @@
+*/10 * * * * python fullprocess.py > dynamic_risk_assesment_system.log
